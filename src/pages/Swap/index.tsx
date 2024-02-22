@@ -1,1 +1,3 @@
-export { Swap } from './ui/Swap';
+import { Swap } from './ui/Swap';
+
+export default Swap;
