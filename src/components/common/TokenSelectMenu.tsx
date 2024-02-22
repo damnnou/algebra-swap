@@ -1,15 +1,16 @@
 import React from 'react';
 import { tokens } from 'src/constants/tokens';
 import ArrowBtn from 'src/assets/arrow.svg';
-import WETHLogo from 'src/assets/tokens/weth.svg';
+import { MenuState } from 'src/types/token-menu';
 
 export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
     onClick,
+    onSelect,
 }) => {
     return (
         <fieldset className="p-2">
             <label
-                onClick={onClick}
+                onClick={() => onClick(MenuState.CLOSED)}
                 className="flex items-center gap-2 mb-2 cursor-pointer"
             >
                 <img
@@ -23,11 +24,17 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
             <ul className="w-full h-fit">
                 {Object.keys(tokens).map((token) => (
                     <li
+                        onClick={() => onSelect(token)}
                         className="flex items-center gap-4 w-full p-3 hover:bg-[#101321] cursor-pointer"
                         key={token}
                         value={token}
                     >
-                        <img width={24} height={24} src={WETHLogo} />
+                        <img
+                            alt={`${token} Logo`}
+                            width={24}
+                            height={24}
+                            src={tokens[token].logo}
+                        />
                         <span>{token}</span>
                     </li>
                 ))}
@@ -37,5 +44,6 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
 };
 
 interface TokenSelectMenuProps {
-    onClick: () => void;
+    onClick: (state: MenuState) => void;
+    onSelect: (token: string) => void;
 }
