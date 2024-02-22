@@ -16,6 +16,7 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
                 className="flex items-center gap-2 mb-2 cursor-pointer"
             >
                 <img
+                    alt="Arrow"
                     width={14}
                     height={14}
                     className="rotate-90"
@@ -31,9 +32,9 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
                         <li
                             onClick={() => !isTokenSelected && onSelect(token)}
                             className={cn(
-                                'flex items-center gap-4 w-full p-3 hover:bg-[#101321] cursor-pointer',
+                                'flex items-center gap-4 w-full p-3 hover:bg-dark cursor-pointer transition-all ease-in-out duration-300 ',
                                 isTokenSelected
-                                    ? 'bg-[#32343E] text-[#9D9D9D] cursor-not-allowed hover:bg-[#32343E]'
+                                    ? 'bg-div-disabled text-text-disabled cursor-not-allowed hover:bg-div-disabled'
                                     : ''
                             )}
                             key={token}

@@ -11,10 +11,10 @@ export const InputField: React.FC<InputFieldProps> = ({
     value,
 }) => {
     return (
-        <label className="flex w-full items-center h-fit border-2 border-[#34364C] p-6 rounded-3xl bg-[#101321]">
+        <label className="flex w-full items-center h-[104px] border-2 border-border-light rounded-3xl bg-dark">
             <div
                 onClick={onClick}
-                className="flex w-1/3 items-center gap-4 cursor-pointer"
+                className="flex w-1/2 p-4 ml-4 rounded-2xl h-3/4 hover:bg-light items-center gap-4 cursor-pointer transition-all ease-in-out duration-300"
             >
                 <img width={36} height={36} src={selectedToken.logo} />
                 <p className="font-semibold text-xl">
@@ -29,7 +29,7 @@ export const InputField: React.FC<InputFieldProps> = ({
                 disabled={disabled}
                 value={value}
                 type="number"
-                className="w-1/2 h-full ml-auto text-[24px] outline-none bg-transparent text-right"
+                className="w-1/2 h-3/4 p-4 mr-4 ml-auto text-text-input outline-none bg-transparent text-right"
             />
         </label>
     );

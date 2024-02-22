@@ -4,6 +4,7 @@ import { SwitchButton } from '../SwitchButton';
 import { Token, tokens } from 'src/constants/tokens';
 import { TokenSelectMenu } from '../TokenSelectMenu';
 import { MenuState } from 'src/types/token-menu';
+import { cn } from 'src/lib/cn';
 
 export const Form = () => {
     const [inputToken, setInputToken] = useState<Token>(tokens.WETH);
@@ -40,7 +41,12 @@ export const Form = () => {
     };
 
     return (
-        <form className="relative shadow-2xl shadow-[#db4bff85] flex flex-col w-full h-fit gap-3 border-2 border-[#34364C] p-4 rounded-[35px] bg-[#1A1D2B]">
+        <form
+            className={cn(
+                'relative w-full transition-all duration-300 delay-50 overflow-hidden shadow-2xl shadow-glow flex flex-col gap-3 border-2 border-border-light p-4 rounded-[35px] bg-light',
+                menuState !== MenuState.CLOSED ? 'h-[400px]' : 'h-[250px]'
+            )}
+        >
             {menuState === MenuState.CLOSED && (
                 <>
                     <InputField

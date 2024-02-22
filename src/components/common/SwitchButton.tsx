@@ -7,7 +7,7 @@ export const SwitchButton: React.FC<SwitchButtonProps> = ({
     onClick,
 }) => {
     const defaultStyles =
-        'border-2 rounded-full bg-[#101321] border-[#34364C] w-fit h-fit p-1.5';
+        'border-2 rounded-full bg-dark hover:bg-light border-border-light w-fit h-fit p-1.5 transition-all ease-in-out duration-300';
 
     return (
         <button onClick={onClick} className={cn(defaultStyles, className)}>
