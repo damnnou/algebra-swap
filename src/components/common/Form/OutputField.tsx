@@ -4,7 +4,7 @@ import { Token } from 'src/constants/tokens';
 
 export const OutputField: React.FC<OutputFieldProps> = ({
     onClick,
-    outputToken,
+    selectedToken,
     className,
 }) => {
     return (
@@ -12,13 +12,13 @@ export const OutputField: React.FC<OutputFieldProps> = ({
             className={className}
             disabled
             onClick={onClick}
-            inputToken={outputToken}
+            selectedToken={selectedToken}
         />
     );
 };
 
 interface OutputFieldProps {
     className?: string;
-    outputToken: Token;
+    selectedToken: Token;
     onClick: () => void;
 }

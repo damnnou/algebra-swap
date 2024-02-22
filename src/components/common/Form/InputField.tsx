@@ -5,8 +5,10 @@ import { Token, tokens } from 'src/constants/tokens';
 export const InputField: React.FC<InputFieldProps> = ({
     className,
     onClick,
-    inputToken,
+    onChange,
+    selectedToken,
     disabled,
+    value,
 }) => {
     return (
         <label className="flex w-full items-center h-fit border-2 border-[#34364C] p-6 rounded-3xl bg-[#101321]">
@@ -14,17 +16,18 @@ export const InputField: React.FC<InputFieldProps> = ({
                 onClick={onClick}
                 className="flex w-1/3 items-center gap-4 cursor-pointer"
             >
-                <img width={36} height={36} src={inputToken.logo} />
+                <img width={36} height={36} src={selectedToken.logo} />
                 <p className="font-semibold text-xl">
                     {Object.keys(tokens).find(
-                        (key) => tokens[key] === inputToken
+                        (key) => tokens[key] === selectedToken
                     )}
                 </p>
                 <img src={ArrowBtn} />
             </div>
             <input
-                disabled
-                defaultValue={0}
+                onChange={(e) => onChange && onChange(Number(e.target.value))}
+                disabled={disabled}
+                value={value}
                 type="number"
                 className="w-1/2 h-full ml-auto text-[24px] outline-none bg-transparent text-right"
             />
@@ -35,6 +38,8 @@ export const InputField: React.FC<InputFieldProps> = ({
 interface InputFieldProps {
     className?: string;
     onClick: () => void;
-    inputToken: Token;
+    onChange?: (value: number) => void;
+    selectedToken: Token;
     disabled?: boolean;
+    value?: number;
 }

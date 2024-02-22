@@ -18,5 +18,5 @@ export const SwitchButton: React.FC<SwitchButtonProps> = ({
 
 interface SwitchButtonProps {
     className?: string;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent) => void;
 }
