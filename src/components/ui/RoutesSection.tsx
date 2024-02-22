@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from '../common/Route';
+import { Route } from 'src/components/common/Route';
 
 export const RoutesSection = () => {
     return (

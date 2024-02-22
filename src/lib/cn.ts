@@ -1,3 +1,3 @@
-export function cn(cls: string, ...additional: string[]): string {
-    return [cls, additional].join(' ');
+export function cn(...classes: (string | undefined)[]): string {
+    return [...classes].join(' ');
 }

@@ -7,7 +7,7 @@ export const UpdateButton: React.FC<UpdateButtonProps> = ({
     className,
 }) => {
     return (
-        <button className={cn('', className)} onClick={onClick}>
+        <button className={cn(className)} onClick={onClick}>
             <img src={UpdateBtn} />
         </button>
     );
