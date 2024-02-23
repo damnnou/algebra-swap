@@ -1,16 +1,15 @@
 import axios from 'axios';
-import 'dotenv/config';
 
-const TENDERLY_ACCOUNT_SLUG = process.env.TENDERLY_ACCOUNT_SLUG;
-const TENDERLY_PROJECT_SLUG = process.env.TENDERLY_PROJECT_SLUG;
-const TENDERLY_ACCESS_KEY = process.env.TENDERLY_ACCESS_KEY;
+const TENDERLY_ACCOUNT_SLUG = 'skdamn';
+const TENDERLY_PROJECT_SLUG = 'algebra-swap';
+const TENDERLY_ACCESS_KEY = 'bKtViX2fME6dNDOmiNVN02Rb0R7bqTx8';
 
 const QUOTER_CONTRACT_ADDRESS = '0x0fc73040b26e9bc8514fa028d998e73a254fa76e';
 const NETWORK_ID = '42161';
 
 export const simulateTransaction = async (calldata: string) => {
     try {
-        await axios.post(
+        const response = await axios.post(
             `https://api.tenderly.co/api/v1/account/${TENDERLY_ACCOUNT_SLUG}/project/${TENDERLY_PROJECT_SLUG}/simulate`,
             {
                 network_id: NETWORK_ID,
@@ -26,6 +25,7 @@ export const simulateTransaction = async (calldata: string) => {
                 },
             }
         );
+        return response;
     } catch (error) {
         console.error('Failed to simulate transaction: ', error);
     }

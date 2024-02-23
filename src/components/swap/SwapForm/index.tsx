@@ -5,14 +5,31 @@ import { SwitchButton } from 'src/components/ui/SwitchButton';
 import { Token, tokens } from 'src/constants/tokens';
 import { MenuState } from 'src/types/token-menu';
 import { cn } from 'src/lib/cn';
-import { getAllRoutesPaths, getCalldata } from 'src/utils/helpers';
 import TokenSelectMenu from '../TokenSelectMenu';
+import { useSimulation } from 'src/hooks/useSimulation';
 
 const SwapForm = () => {
     const [inputToken, setInputToken] = useState<Token>(tokens.WETH);
     const [outputToken, setOutputToken] = useState<Token>(tokens.USDC);
 
     const [inputValue, setInputValue] = useState<number>(0);
+
+    const { isLoading, simulate } = useSimulation(
+        inputToken.symbol,
+        outputToken.symbol,
+        inputValue
+    );
+
+    useEffect(() => {
+        if (!inputValue) return;
+        if (isLoading) return;
+        simulate().then((data) =>
+            console.log(
+                data.transaction.transaction_info.call_trace.decoded_output[0]
+                    .value
+            )
+        );
+    }, [inputValue]);
 
     const [menuState, setMenuState] = useState<MenuState>(MenuState.CLOSED);
 
@@ -41,14 +58,6 @@ const SwapForm = () => {
         setOutputToken(inputToken);
         setInputValue(0);
     };
-
-    useEffect(() => {
-        const path0 = getAllRoutesPaths(
-            inputToken.ticker,
-            outputToken.ticker
-        )[0];
-        console.log(getCalldata(inputToken.ticker, inputValue, path0));
-    }, [inputValue, inputToken, outputToken]);
 
     return (
         <form

@@ -1,12 +1,10 @@
+import { useMemo } from 'react';
 import { tokens } from 'src/constants/tokens';
-import { parseAbiItem, encodeFunctionData, parseUnits } from 'viem';
 
 type PathJoined = `0x${string}`;
 
-export const getAllRoutesPaths = (
-    tokenIn: string,
-    tokenOut: string
-): PathJoined[] => {
+// Возвращает все возможные маршруты в виде массива склееных адресов
+const getAllRoutesPaths = (tokenIn: string, tokenOut: string): PathJoined[] => {
     const visited = new Set();
     const routes: string[][] = [];
 
@@ -31,31 +29,19 @@ export const getAllRoutesPaths = (
     const paths = routes.map(
         (route): PathJoined =>
             `0x${route.reduce((acc, token) => {
-                return acc + token.slice(2);
+                return acc + tokens[token].address.slice(2);
             }, '')}`
     );
 
     return paths;
 };
 
-export const getCalldata = (
+export function useAllRoutesPaths(
     tokenIn: string,
-    amountIn: number,
-    path: PathJoined
-) => {
-    const inputTokenDecimals = tokens[tokenIn].decimals;
-
-    // Введенный пользователем input amount
-    const amount = amountIn.toString();
-
-    const quoteAbiItem = parseAbiItem(
-        'function quoteExactInput(bytes path, uint256 amountIn) returns (uint256, uint16[])'
-    );
-
-    const calldata = encodeFunctionData({
-        abi: [quoteAbiItem],
-        args: [path, parseUnits(amount, inputTokenDecimals)],
-    });
-
-    return calldata;
-};
+    tokenOut: string
+): PathJoined[] {
+    return useMemo(() => {
+        const paths = getAllRoutesPaths(tokenIn, tokenOut);
+        return paths;
+    }, [tokenIn, tokenOut]);
+}

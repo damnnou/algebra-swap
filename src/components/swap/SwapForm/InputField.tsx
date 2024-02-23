@@ -17,7 +17,7 @@ export const InputField: React.FC<InputFieldProps> = ({
             >
                 <img width={40} height={40} src={selectedToken.logo} />
                 <p className="font-semibold text-token-select">
-                    {selectedToken.ticker}
+                    {selectedToken.symbol}
                 </p>
                 <img src={ArrowBtn} />
             </div>
