@@ -10,10 +10,10 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
     selectedToken,
 }) => {
     return (
-        <fieldset className="p-2">
+        <fieldset className="w-[500px] h-[400px] -m-4">
             <label
                 onClick={() => onClick(MenuState.CLOSED)}
-                className="flex items-center gap-2 mb-2 cursor-pointer"
+                className="flex items-center gap-2 cursor-pointer px-8 py-6"
             >
                 <img
                     alt="Arrow"
@@ -24,7 +24,7 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
                 />
                 <p className="text-[24px]">Select a token</p>
             </label>
-            <ul className="w-full h-fit">
+            <ul>
                 {Object.keys(tokens).map((token) => {
                     const isTokenSelected =
                         selectedToken.address === tokens[token].address;
@@ -32,7 +32,7 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
                         <li
                             onClick={() => !isTokenSelected && onSelect(token)}
                             className={cn(
-                                'flex items-center gap-4 w-full p-3 hover:bg-dark cursor-pointer transition-all ease-in-out duration-300 ',
+                                'flex items-center gap-4 w-full px-8 py-3 hover:bg-dark cursor-pointer transition-all ease-in-out duration-300 ',
                                 isTokenSelected
                                     ? 'bg-div-disabled text-text-disabled cursor-not-allowed hover:bg-div-disabled'
                                     : ''
@@ -42,11 +42,11 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
                         >
                             <img
                                 alt={`${token} Logo`}
-                                width={24}
-                                height={24}
+                                width={32}
+                                height={32}
                                 src={tokens[token].logo}
                             />
-                            <span>{token}</span>
+                            <span className="text-[24px]">{token}</span>
                         </li>
                     );
                 })}

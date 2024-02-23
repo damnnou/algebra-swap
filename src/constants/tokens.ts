@@ -10,7 +10,6 @@ export interface Token {
     logo: string;
 }
 
-// Тип для объекта токенов
 export type Tokens = {
     [key: string]: Token;
 };

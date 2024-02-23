@@ -61,7 +61,7 @@ export const Form = () => {
                     />
                     <SwitchButton
                         onClick={handleSwitchTokens}
-                        className="absolute left-1/2 translate-x-[-50%] top-1/2 translate-y-[-50%]"
+                        className="absolute left-1/2 translate-x-[-50%] top-1/2 translate-y-[-50%] animate-fade-in"
                     />
                 </>
             )}
