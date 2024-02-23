@@ -5,7 +5,11 @@ import { parseAbiItem, encodeFunctionData, parseUnits } from 'viem';
 type PathJoined = `0x${string}`;
 
 // Енкодит маршрут в calldata
-const getEncodePath = (tokenIn: string, amountIn: number, path: PathJoined) => {
+export const getEncodePath = (
+    tokenIn: string,
+    amountIn: number,
+    path: PathJoined
+) => {
     const inputTokenDecimals = tokens[tokenIn].decimals;
 
     // Введенный пользователем input amount

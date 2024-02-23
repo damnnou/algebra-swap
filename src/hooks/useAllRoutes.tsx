@@ -1,10 +1,8 @@
 import { useMemo } from 'react';
 import { tokens } from 'src/constants/tokens';
 
-type PathJoined = `0x${string}`;
-
-// Возвращает все возможные маршруты в виде массива склееных адресов
-const getAllRoutesPaths = (tokenIn: string, tokenOut: string): PathJoined[] => {
+// Возвращает все возможные маршруты в виде массива символов
+const getAllRoutes = (tokenIn: string, tokenOut: string): string[][] => {
     const visited = new Set();
     const routes: string[][] = [];
 
@@ -26,22 +24,14 @@ const getAllRoutesPaths = (tokenIn: string, tokenOut: string): PathJoined[] => {
 
     dfs(tokenIn, [tokenIn]);
 
-    const paths = routes.map(
-        (route): PathJoined =>
-            `0x${route.reduce((acc, token) => {
-                return acc + tokens[token].address.slice(2);
-            }, '')}`
-    );
+    const paths = routes.map((route) => route.map((token) => token));
 
     return paths;
 };
 
-export function useAllRoutesPaths(
-    tokenIn: string,
-    tokenOut: string
-): PathJoined[] {
+export function useAllRoutes(tokenIn: string, tokenOut: string): string[][] {
     return useMemo(() => {
-        const paths = getAllRoutesPaths(tokenIn, tokenOut);
-        return paths;
+        const routes = getAllRoutes(tokenIn, tokenOut);
+        return routes;
     }, [tokenIn, tokenOut]);
 }
