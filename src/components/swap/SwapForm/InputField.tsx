@@ -1,6 +1,6 @@
 import React from 'react';
 import ArrowBtn from 'src/assets/arrow.svg';
-import { Token, tokens } from 'src/constants/tokens';
+import { Token } from 'src/constants/tokens';
 
 export const InputField: React.FC<InputFieldProps> = ({
     onClick,
@@ -17,9 +17,7 @@ export const InputField: React.FC<InputFieldProps> = ({
             >
                 <img width={40} height={40} src={selectedToken.logo} />
                 <p className="font-semibold text-token-select">
-                    {Object.keys(tokens).find(
-                        (key) => tokens[key] === selectedToken
-                    )}
+                    {selectedToken.ticker}
                 </p>
                 <img src={ArrowBtn} />
             </div>

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputField } from './InputField';
 import { OutputField } from './OutputField';
 import { SwitchButton } from 'src/components/ui/SwitchButton';
 import { Token, tokens } from 'src/constants/tokens';
-import TokenSelectMenu from '../TokenSelectMenu';
 import { MenuState } from 'src/types/token-menu';
 import { cn } from 'src/lib/cn';
+import { getAllRoutesPaths, getCalldata } from 'src/utils/helpers';
+import TokenSelectMenu from '../TokenSelectMenu';
 
 const SwapForm = () => {
     const [inputToken, setInputToken] = useState<Token>(tokens.WETH);
@@ -40,6 +41,14 @@ const SwapForm = () => {
         setOutputToken(inputToken);
         setInputValue(0);
     };
+
+    useEffect(() => {
+        const path0 = getAllRoutesPaths(
+            inputToken.ticker,
+            outputToken.ticker
+        )[0];
+        console.log(getCalldata(inputToken.ticker, inputValue, path0));
+    }, [inputValue, inputToken, outputToken]);
 
     return (
         <form
