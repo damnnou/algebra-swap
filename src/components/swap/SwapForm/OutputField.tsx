@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputField } from '.';
+import { InputField } from './InputField';
 import { Token } from 'src/constants/tokens';
 
 export const OutputField: React.FC<OutputFieldProps> = ({

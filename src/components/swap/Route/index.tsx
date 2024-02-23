@@ -2,7 +2,7 @@ import React from 'react';
 import WETHLogo from 'src/assets/tokens/weth.svg';
 import { cn } from 'src/lib/cn';
 
-export const Route: React.FC<RouteProps> = ({ best, className }) => {
+const Route: React.FC<RouteProps> = ({ best, className }) => {
     const defaultStyles = `relative flex items-center justify-between px-8 w-full h-[56px] border-2 bg-light rounded-2xl`;
     const bestStyles = best ? 'border-border-best' : 'border-border-light';
 
@@ -26,3 +26,5 @@ interface RouteProps {
     className?: string;
     best?: boolean;
 }
+
+export default Route;

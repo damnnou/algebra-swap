@@ -28,7 +28,7 @@ export default {
             },
 
             fontSize: {
-                'text-input': '24px',
+                'token-select': '24px',
             },
 
             keyframes: {

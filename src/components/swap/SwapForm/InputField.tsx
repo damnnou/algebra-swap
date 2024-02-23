@@ -3,7 +3,6 @@ import ArrowBtn from 'src/assets/arrow.svg';
 import { Token, tokens } from 'src/constants/tokens';
 
 export const InputField: React.FC<InputFieldProps> = ({
-    className,
     onClick,
     onChange,
     selectedToken,
@@ -16,8 +15,8 @@ export const InputField: React.FC<InputFieldProps> = ({
                 onClick={onClick}
                 className="flex w-1/2 p-4 ml-4 rounded-2xl h-3/4 hover:bg-light items-center gap-4 cursor-pointer transition-all ease-in-out duration-300"
             >
-                <img width={36} height={36} src={selectedToken.logo} />
-                <p className="font-semibold text-xl">
+                <img width={40} height={40} src={selectedToken.logo} />
+                <p className="font-semibold text-token-select">
                     {Object.keys(tokens).find(
                         (key) => tokens[key] === selectedToken
                     )}
@@ -29,7 +28,7 @@ export const InputField: React.FC<InputFieldProps> = ({
                 disabled={disabled}
                 value={value}
                 type="number"
-                className="w-1/2 h-3/4 p-4 mr-4 ml-auto text-text-input outline-none bg-transparent text-right"
+                className="w-1/2 h-3/4 p-4 mr-4 ml-auto text-token-select outline-none bg-transparent text-right"
             />
         </label>
     );

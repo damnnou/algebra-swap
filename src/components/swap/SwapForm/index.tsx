@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { InputField, OutputField } from '.';
-import { SwitchButton } from '../SwitchButton';
+import { InputField } from './InputField';
+import { OutputField } from './OutputField';
+import { SwitchButton } from 'src/components/ui/SwitchButton';
 import { Token, tokens } from 'src/constants/tokens';
-import { TokenSelectMenu } from '../TokenSelectMenu';
+import TokenSelectMenu from '../TokenSelectMenu';
 import { MenuState } from 'src/types/token-menu';
 import { cn } from 'src/lib/cn';
 
-export const Form = () => {
+const SwapForm = () => {
     const [inputToken, setInputToken] = useState<Token>(tokens.WETH);
     const [outputToken, setOutputToken] = useState<Token>(tokens.USDC);
 
@@ -77,3 +78,5 @@ export const Form = () => {
         </form>
     );
 };
+
+export default SwapForm;

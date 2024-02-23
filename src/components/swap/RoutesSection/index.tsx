@@ -1,7 +1,7 @@
 import React from 'react';
-import { Route } from 'src/components/common/Route';
+import Route from 'src/components/swap/Route';
 
-export const RoutesSection = () => {
+const RoutesSection = () => {
     return (
         <section>
             <h2 className="mb-3">Routes</h2>
@@ -12,3 +12,5 @@ export const RoutesSection = () => {
         </section>
     );
 };
+
+export default RoutesSection;

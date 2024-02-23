@@ -4,7 +4,7 @@ import ArrowBtn from 'src/assets/arrow.svg';
 import { MenuState } from 'src/types/token-menu';
 import { cn } from 'src/lib/cn';
 
-export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
+const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
     onClick,
     onSelect,
     selectedToken,
@@ -22,7 +22,7 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
                     className="rotate-90"
                     src={ArrowBtn}
                 />
-                <p className="text-[24px]">Select a token</p>
+                <p className="text-token-select">Select a token</p>
             </label>
             <ul>
                 {Object.keys(tokens).map((token) => {
@@ -32,10 +32,10 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
                         <li
                             onClick={() => !isTokenSelected && onSelect(token)}
                             className={cn(
-                                'flex items-center gap-4 w-full px-8 py-3 hover:bg-dark cursor-pointer transition-all ease-in-out duration-300 ',
+                                'flex items-center gap-4 w-full px-8 py-3 transition-all ease-in-out duration-300 ',
                                 isTokenSelected
                                     ? 'bg-div-disabled text-text-disabled cursor-not-allowed hover:bg-div-disabled'
-                                    : ''
+                                    : 'hover:bg-dark cursor-pointer'
                             )}
                             key={token}
                             value={token}
@@ -46,7 +46,7 @@ export const TokenSelectMenu: React.FC<TokenSelectMenuProps> = ({
                                 height={32}
                                 src={tokens[token].logo}
                             />
-                            <span className="text-[24px]">{token}</span>
+                            <span className="text-token-select">{token}</span>
                         </li>
                     );
                 })}
@@ -60,3 +60,5 @@ interface TokenSelectMenuProps {
     onSelect: (token: string) => void;
     selectedToken: Token;
 }
+
+export default TokenSelectMenu;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { RoutesSection } from 'src/components/ui/RoutesSection';
-import { SwapSection } from 'src/components/ui/SwapSection';
+import RoutesSection from 'src/components/swap/RoutesSection';
+import SwapSection from 'src/components/swap/SwapSection';
 
 export const Swap = () => {
     return (
