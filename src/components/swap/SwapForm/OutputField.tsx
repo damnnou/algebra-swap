@@ -6,6 +6,7 @@ export const OutputField: React.FC<OutputFieldProps> = ({
     onClick,
     selectedToken,
     className,
+    value,
 }) => {
     return (
         <InputField
@@ -13,6 +14,7 @@ export const OutputField: React.FC<OutputFieldProps> = ({
             disabled
             onClick={onClick}
             selectedToken={selectedToken}
+            value={value}
         />
     );
 };
@@ -21,4 +23,5 @@ interface OutputFieldProps {
     className?: string;
     selectedToken: Token;
     onClick: () => void;
+    value: number;
 }

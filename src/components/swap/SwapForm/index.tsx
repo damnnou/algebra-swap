@@ -13,6 +13,7 @@ const SwapForm = () => {
     const [outputToken, setOutputToken] = useState<Token>(tokens.USDC);
 
     const [inputValue, setInputValue] = useState<number>(0);
+    const [outputValue, setOutputValue] = useState<number>(0);
 
     const { isLoading, simulate } = useSimulation(
         inputToken.symbol,
@@ -23,12 +24,13 @@ const SwapForm = () => {
     useEffect(() => {
         if (!inputValue) return;
         if (isLoading) return;
-        simulate().then((data) =>
-            console.log(
+        simulate().then((data) => {
+            const amountOut =
                 data.transaction.transaction_info.call_trace.decoded_output[0]
-                    .value
-            )
-        );
+                    .value;
+
+            setOutputValue(amountOut.slice(0, -outputToken.decimals));
+        });
     }, [inputValue]);
 
     const [menuState, setMenuState] = useState<MenuState>(MenuState.CLOSED);
@@ -77,6 +79,7 @@ const SwapForm = () => {
                     <OutputField
                         onClick={() => handleChangeMenu(MenuState.OUTPUT)}
                         selectedToken={outputToken}
+                        value={outputValue}
                     />
                     <SwitchButton
                         onClick={handleSwitchTokens}

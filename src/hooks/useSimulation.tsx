@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { simulateTransaction } from 'src/api/simulateTx';
+import { simulateTransaction } from 'src/api/simulateTransaction';
 import { useAllRoutesPaths } from './useAllRoutesPaths';
 import { useEncodePath } from './useEncodePath';
 
@@ -12,7 +12,7 @@ export function useSimulation(
     const paths = useAllRoutesPaths(tokenIn, tokenOut);
     const calldata = useEncodePath(tokenIn, amountIn, paths[0]);
 
-    const simulate = useCallback(async () => {
+    const simulate = async () => {
         if (isLoading) return;
         if (amountIn <= 0) return;
         setIsLoading(true);
@@ -24,7 +24,7 @@ export function useSimulation(
         } finally {
             setIsLoading(false);
         }
-    }, [amountIn, isLoading, calldata]);
+    };
 
     return { isLoading, simulate };
 }
