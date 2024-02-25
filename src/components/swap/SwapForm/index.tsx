@@ -7,7 +7,7 @@ import { MenuState } from 'src/types/token-menu';
 import { cn } from 'src/lib/cn';
 import TokenSelectMenu from '../TokenSelectMenu';
 import { useAppDispatch, useAppSelector } from 'src/store/useStore';
-import { useSimulation } from 'src/hooks/useSimulation';
+import { useSimulation } from 'src/hooks/swap/useSimulation';
 import { useDebounce } from 'src/hooks/useDebounce';
 
 const SwapForm = () => {
