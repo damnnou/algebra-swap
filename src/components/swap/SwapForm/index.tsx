@@ -1,59 +1,56 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { InputField } from './InputField';
 import { OutputField } from './OutputField';
 import { SwitchButton } from 'src/components/ui/SwitchButton';
-import { Token, tokens } from 'src/constants/tokens';
+import { tokens } from 'src/constants/tokens';
 import { MenuState } from 'src/types/token-menu';
 import { cn } from 'src/lib/cn';
 import TokenSelectMenu from '../TokenSelectMenu';
-import { useSimulation } from 'src/hooks/useSimulation';
+import { useAppDispatch, useAppSelector } from 'src/store/useStore';
 
 const SwapForm = () => {
-    const [inputToken, setInputToken] = useState<Token>(tokens.WETH);
-    const [outputToken, setOutputToken] = useState<Token>(tokens.USDC);
+    const {
+        inputCurrency,
+        inputCurrencyValue,
+        outputCurrency,
+        outputCurrencyValue,
+    } = useAppSelector(({ swap }) => swap);
 
-    const [inputValue, setInputValue] = useState<number>(0);
-    const [outputValue, setOutputValue] = useState<number>(0);
-
-    const { isLoading, bestPrice } = useSimulation(
-        inputToken.symbol,
-        outputToken.symbol,
-        inputValue
-    );
+    const dispatch = useAppDispatch();
 
     const [menuState, setMenuState] = useState<MenuState>(MenuState.CLOSED);
-
-    const handleChangeInputValue = (value: number) => {
-        setInputValue(value);
-    };
 
     const handleChangeMenu = (state: MenuState) => {
         setMenuState(state);
     };
 
+    const handleChangeInputValue = (value: number) => {
+        dispatch({ type: 'swap/setInputCurrencyValue', payload: value });
+    };
+
     const handleChangeToken = (token: string) => {
-        console.log('selected - ', token);
         if (menuState === MenuState.OUTPUT) {
-            setOutputToken(tokens[token]);
+            dispatch({
+                type: 'swap/setOutputCurrency',
+                payload: tokens[token],
+            });
         }
         if (menuState === MenuState.INPUT) {
-            setInputToken(tokens[token]);
+            dispatch({ type: 'swap/setInputCurrency', payload: tokens[token] });
         }
-        setMenuState(MenuState.CLOSED);
+        handleChangeMenu(MenuState.CLOSED);
     };
 
     const handleSwitchTokens = (e: React.MouseEvent) => {
         e.preventDefault();
-        setInputToken(outputToken);
-        setOutputToken(inputToken);
-        setInputValue(0);
+        dispatch({ type: 'swap/switchCurrencies' });
     };
 
-    useEffect(() => {
-        if (isLoading) return;
-        if (!bestPrice) return;
-        setOutputValue(bestPrice);
-    }, [isLoading, bestPrice]);
+    // useEffect(() => {
+    //     if (isLoading) return;
+    //     if (!bestPrice) return;
+    //     setOutputValue(bestPrice);
+    // }, [isLoading, bestPrice]);
 
     return (
         <form
@@ -67,13 +64,13 @@ const SwapForm = () => {
                     <InputField
                         onClick={() => handleChangeMenu(MenuState.INPUT)}
                         onChange={handleChangeInputValue}
-                        selectedToken={inputToken}
-                        value={inputValue}
+                        selectedToken={inputCurrency}
+                        value={inputCurrencyValue}
                     />
                     <OutputField
                         onClick={() => handleChangeMenu(MenuState.OUTPUT)}
-                        selectedToken={outputToken}
-                        value={outputValue}
+                        selectedToken={outputCurrency}
+                        value={outputCurrencyValue}
                     />
                     <SwitchButton
                         onClick={handleSwitchTokens}
@@ -86,7 +83,9 @@ const SwapForm = () => {
                     onSelect={handleChangeToken}
                     onClick={handleChangeMenu}
                     selectedToken={
-                        menuState === MenuState.INPUT ? outputToken : inputToken
+                        menuState === MenuState.INPUT
+                            ? outputCurrency
+                            : inputCurrency
                     }
                 />
             )}
