@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { simulateTransaction } from 'src/api/simulateTransaction';
-import { useAllRoutes } from './useAllRoutes';
-import { getEncodePath } from './useEncodePath';
+import { useAllRoutes } from 'src/hooks/swap/useAllRoutes';
+import { encodePath } from 'src/utils/encodePath';
 import { tokens } from 'src/constants/tokens';
 import { useAppDispatch, useAppSelector } from 'src/store/useStore';
 
@@ -39,7 +39,7 @@ export function useSimulation() {
 
             const promises = [];
             for (let i = 0; i < paths.length; i++) {
-                const calldata = getEncodePath(tokenIn, amountIn, paths[i]);
+                const calldata = encodePath(tokenIn, amountIn, paths[i]);
                 promises.push(simulateTransaction(calldata));
             }
 
