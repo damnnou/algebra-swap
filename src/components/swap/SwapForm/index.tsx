@@ -73,7 +73,7 @@ const SwapForm = () => {
                         isLoading={isLoading}
                         onClick={() => handleChangeMenu(MenuState.OUTPUT)}
                         selectedToken={outputCurrency.token}
-                        value={outputCurrency.bestValue}
+                        value={outputCurrency.value}
                     />
                     <SwitchButton
                         onClick={handleSwitchTokens}

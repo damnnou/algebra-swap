@@ -1,29 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { simulateTransaction } from 'src/api/simulateTransaction';
 import { useAllRoutes } from './useAllRoutes';
 import { getEncodePath } from './useEncodePath';
 import { tokens } from 'src/constants/tokens';
 import { useAppDispatch, useAppSelector } from 'src/store/useStore';
-import { formatUnits } from 'viem';
 
 type PathJoined = `0x${string}`;
-
-function findBestRoute(routes: Map<string[], bigint>): {
-    bestPrice: bigint;
-    bestRoute: string[];
-} {
-    const sortedArray = [...routes.entries()].sort(
-        (a, b) => Number(b[1]) - Number(a[1])
-    );
-
-    const bestPrice = sortedArray[0][1];
-    const bestRoute = sortedArray[0][0];
-
-    return {
-        bestPrice,
-        bestRoute,
-    };
-}
 
 export function useSimulation(
     tokenIn: string,
@@ -35,11 +17,15 @@ export function useSimulation(
 
     const routes: string[][] = useAllRoutes(tokenIn, tokenOut);
 
-    const paths: PathJoined[] = routes.map(
-        (route): PathJoined =>
-            `0x${route.reduce((acc, token) => {
-                return acc + tokens[token].address.slice(2);
-            }, '')}`
+    const paths: PathJoined[] = useMemo(
+        () =>
+            routes.map(
+                (route): PathJoined =>
+                    `0x${route.reduce((acc, token) => {
+                        return acc + tokens[token].address.slice(2);
+                    }, '')}`
+            ),
+        [routes]
     );
 
     const simulate = useCallback(async () => {
@@ -72,40 +58,11 @@ export function useSimulation(
                 }
             });
 
-            const decimals = tokens[tokenOut].decimals;
-
-            const { bestPrice, bestRoute } = findBestRoute(routeToValue);
-
-            const formattedBestPrice = Number(formatUnits(bestPrice, decimals));
-            const flooredBestPrice =
-                Math.floor(formattedBestPrice * 10000) / 10000;
-
-            const baseRoute = routeToValue.get(routes[0])
-                ? routes[0]
-                : bestRoute;
-            const formattedBasePrice = Number(
-                formatUnits(routeToValue.get(baseRoute), decimals)
-            );
-            const basePrice =
-                Math.floor(Number(formattedBasePrice) * 10000) / 10000;
-
             console.log('Calculated!', 'Routes map - ', routeToValue);
 
             dispatch({
-                type: 'swap/setOutputCurrencyValue',
-                payload: basePrice,
-            });
-            dispatch({
-                type: 'swap/setOutputCurrencyRoute',
-                payload: baseRoute,
-            });
-            dispatch({
-                type: 'swap/setOutputCurrencyBestValue',
-                payload: flooredBestPrice,
-            });
-            dispatch({
-                type: 'swap/setOutputCurrencyBestRoute',
-                payload: bestRoute,
+                type: 'swap/setRoutes',
+                payload: routeToValue,
             });
         } catch (e) {
             console.log(e);
