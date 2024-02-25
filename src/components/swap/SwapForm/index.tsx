@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputField } from './InputField';
 import { OutputField } from './OutputField';
 import { SwitchButton } from 'src/components/ui/SwitchButton';
@@ -7,14 +7,18 @@ import { MenuState } from 'src/types/token-menu';
 import { cn } from 'src/lib/cn';
 import TokenSelectMenu from '../TokenSelectMenu';
 import { useAppDispatch, useAppSelector } from 'src/store/useStore';
+import { useSimulation } from 'src/hooks/useSimulation';
 
 const SwapForm = () => {
-    const {
-        inputCurrency,
-        inputCurrencyValue,
-        outputCurrency,
-        outputCurrencyValue,
-    } = useAppSelector(({ swap }) => swap);
+    const { isLoading, inputCurrency, outputCurrency } = useAppSelector(
+        ({ swap }) => swap
+    );
+
+    const simulate = useSimulation(
+        inputCurrency.token.symbol,
+        outputCurrency.token.symbol,
+        inputCurrency.value
+    );
 
     const dispatch = useAppDispatch();
 
@@ -46,11 +50,9 @@ const SwapForm = () => {
         dispatch({ type: 'swap/switchCurrencies' });
     };
 
-    // useEffect(() => {
-    //     if (isLoading) return;
-    //     if (!bestPrice) return;
-    //     setOutputValue(bestPrice);
-    // }, [isLoading, bestPrice]);
+    useEffect(() => {
+        if (inputCurrency.value > 0) simulate();
+    }, [inputCurrency.value]);
 
     return (
         <form
@@ -64,13 +66,14 @@ const SwapForm = () => {
                     <InputField
                         onClick={() => handleChangeMenu(MenuState.INPUT)}
                         onChange={handleChangeInputValue}
-                        selectedToken={inputCurrency}
-                        value={inputCurrencyValue}
+                        selectedToken={inputCurrency.token}
+                        value={inputCurrency.value}
                     />
                     <OutputField
+                        isLoading={isLoading}
                         onClick={() => handleChangeMenu(MenuState.OUTPUT)}
-                        selectedToken={outputCurrency}
-                        value={outputCurrencyValue}
+                        selectedToken={outputCurrency.token}
+                        value={outputCurrency.bestValue}
                     />
                     <SwitchButton
                         onClick={handleSwitchTokens}
@@ -84,8 +87,8 @@ const SwapForm = () => {
                     onClick={handleChangeMenu}
                     selectedToken={
                         menuState === MenuState.INPUT
-                            ? outputCurrency
-                            : inputCurrency
+                            ? outputCurrency.token
+                            : inputCurrency.token
                     }
                 />
             )}

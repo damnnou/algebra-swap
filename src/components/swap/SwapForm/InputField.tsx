@@ -1,8 +1,10 @@
 import React from 'react';
 import ArrowBtn from 'src/assets/arrow.svg';
 import { Token } from 'src/constants/tokens';
+import SpinnerSVG from 'src/assets/spinner.svg';
 
 export const InputField: React.FC<InputFieldProps> = ({
+    isLoading,
     onClick,
     onChange,
     selectedToken,
@@ -21,18 +23,32 @@ export const InputField: React.FC<InputFieldProps> = ({
                 </p>
                 <img src={ArrowBtn} />
             </div>
-            <input
-                onChange={(e) => onChange && onChange(Number(e.target.value))}
-                disabled={disabled}
-                value={value}
-                type="number"
-                className="w-1/2 h-3/4 p-4 mr-4 ml-auto text-token-select outline-none bg-transparent text-right"
-            />
+            {!isLoading ? (
+                <input
+                    onChange={(e) =>
+                        onChange && onChange(Number(e.target.value))
+                    }
+                    disabled={disabled}
+                    value={value}
+                    type="number"
+                    className="w-1/2 h-3/4 p-4 mr-4 ml-auto text-token-select outline-none bg-transparent text-right"
+                />
+            ) : (
+                <div className="flex items-center justify-end w-1/2 h-3/4 p-4 mr-2 ml-auto bg-transparent ">
+                    <img
+                        className="p-0 m-0"
+                        width={42}
+                        height={42}
+                        src={SpinnerSVG}
+                    />
+                </div>
+            )}
         </label>
     );
 };
 
 interface InputFieldProps {
+    isLoading?: boolean;
     className?: string;
     onClick: () => void;
     onChange?: (value: number) => void;

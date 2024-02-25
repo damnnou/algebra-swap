@@ -3,8 +3,15 @@ import WETHLogo from 'src/assets/tokens/weth.svg';
 import ArrowBtn from 'src/assets/arrow.svg';
 import { cn } from 'src/lib/cn';
 import { tokens } from 'src/constants/tokens';
+import SpinnerSVG from 'src/assets/spinner.svg';
 
-const Route: React.FC<RouteProps> = ({ route, best, className, price }) => {
+const Route: React.FC<RouteProps> = ({
+    isLoading,
+    route,
+    best,
+    className,
+    price,
+}) => {
     const defaultStyles = `relative flex items-center justify-between px-8 w-full h-[56px] border-2 bg-light rounded-2xl`;
     const bestStyles = best ? 'border-border-best' : 'border-border-light';
 
@@ -26,7 +33,16 @@ const Route: React.FC<RouteProps> = ({ route, best, className, price }) => {
                     </li>
                 ))}
             </ul>
-            <p>{price}</p>
+            {!isLoading ? (
+                <p>{price}</p>
+            ) : (
+                <img
+                    className="p-0 m-0"
+                    width={26}
+                    height={26}
+                    src={SpinnerSVG}
+                />
+            )}
             {best && (
                 <div className="absolute -top-3 right-6 border border-border-route bg-bg-route rounded-md flex items-center justify-center w-[87px] h-[22px]">
                     <p className="text-[12px] text-text-route">Best Route</p>
@@ -37,6 +53,7 @@ const Route: React.FC<RouteProps> = ({ route, best, className, price }) => {
 };
 
 interface RouteProps {
+    isLoading: boolean;
     className?: string;
     best?: boolean;
     route: string[];

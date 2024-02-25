@@ -7,6 +7,9 @@ const getAllRoutes = (tokenIn: string, tokenOut: string): string[][] => {
     const routes: string[][] = [];
 
     function dfs(currentToken: string, path: string[]) {
+        if (path.length > 4) {
+            return;
+        }
         visited.add(currentToken);
 
         if (currentToken === tokenOut) {
@@ -25,6 +28,13 @@ const getAllRoutes = (tokenIn: string, tokenOut: string): string[][] => {
     dfs(tokenIn, [tokenIn]);
 
     const paths = routes.map((route) => route.map((token) => token));
+
+    const index = paths.findIndex(
+        (route) => JSON.stringify(route) === JSON.stringify([tokenIn, tokenOut])
+    );
+    if (index !== -1) {
+        paths.unshift(paths.splice(index, 1)[0]);
+    }
 
     return paths;
 };

@@ -3,6 +3,7 @@ import { InputField } from './InputField';
 import { Token } from 'src/constants/tokens';
 
 export const OutputField: React.FC<OutputFieldProps> = ({
+    isLoading,
     onClick,
     selectedToken,
     className,
@@ -10,6 +11,7 @@ export const OutputField: React.FC<OutputFieldProps> = ({
 }) => {
     return (
         <InputField
+            isLoading={isLoading}
             className={className}
             disabled
             onClick={onClick}
@@ -20,6 +22,7 @@ export const OutputField: React.FC<OutputFieldProps> = ({
 };
 
 interface OutputFieldProps {
+    isLoading?: boolean;
     className?: string;
     selectedToken: Token;
     onClick: () => void;
