@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+// import { useMemo } from 'react';
 import { tokens } from 'src/constants/tokens';
 import { parseAbiItem, encodeFunctionData, parseUnits } from 'viem';
 
@@ -27,13 +27,13 @@ export const getEncodePath = (
     return calldata;
 };
 
-export function useEncodePath(
-    tokenIn: string,
-    amountIn: number,
-    path: PathJoined
-) {
-    return useMemo(() => {
-        const routes = getEncodePath(tokenIn, amountIn, path);
-        return routes;
-    }, [tokenIn, amountIn, path]);
-}
+// export function useEncodePath(
+//     tokenIn: string,
+//     amountIn: number,
+//     path: PathJoined
+// ) {
+//     return useMemo(() => {
+//         const routes = getEncodePath(tokenIn, amountIn, path);
+//         return routes;
+//     }, [tokenIn, amountIn, path]);
+// }

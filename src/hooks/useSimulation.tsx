@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { simulateTransaction } from 'src/api/simulateTransaction';
 import { useAllRoutes } from './useAllRoutes';
 import { getEncodePath } from './useEncodePath';
@@ -47,9 +47,10 @@ export function useSimulation() {
 
             txsReciept.forEach((promise, index) => {
                 if (
+                    promise.status === 'fulfilled' &&
+                    promise.value !== undefined &&
                     promise.value.data.transaction.transaction_info.call_trace
-                        ?.decoded_output !== null &&
-                    promise.status === 'fulfilled'
+                        ?.decoded_output !== null
                 ) {
                     const outputPrice: bigint =
                         promise.value.data.transaction.transaction_info
@@ -58,6 +59,8 @@ export function useSimulation() {
                     return;
                 }
             });
+
+            if (!routeToValue.size) throw new Error('no route found');
 
             console.log('Calculated!', 'Routes map - ', routeToValue);
 
@@ -70,20 +73,8 @@ export function useSimulation() {
         } finally {
             dispatch({ type: 'swap/setLoading' });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [amountIn]);
-
-    // useEffect(() => {
-    //     console.log('rendered');
-    // }, [
-    //     dispatch,
-    //     isLoading,
-    //     paths,
-    //     routes,
-    //     tokenIn,
-    //     tokenOut,
-    //     amountIn,
-    //     simulate,
-    // ]);
 
     return simulate;
 }

@@ -50,10 +50,11 @@ const SwapForm = () => {
 
     useEffect(() => {
         if (debouncedCurrencyValue && inputCurrency.value > 0) simulate();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedCurrencyValue]);
 
     useEffect(() => {
-        if (inputCurrency.value <= 0) return;
+        if (isLoading || inputCurrency.value <= 0) return;
         const intervalId = setInterval(() => {
             console.log('autosimulating...');
             simulate();

@@ -82,8 +82,9 @@ export const swapSlice = createSlice({
                 )
             );
             const [bestRoute] = state.outputCurrency.routes.keys();
+            const routeValue = state.outputCurrency.routes.get(bestRoute) || 0n;
             state.outputCurrency.value = floorUnits(
-                state.outputCurrency.routes.get(bestRoute),
+                routeValue,
                 state.outputCurrency.token.decimals
             );
         },
