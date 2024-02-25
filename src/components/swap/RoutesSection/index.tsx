@@ -7,8 +7,6 @@ const RoutesSection = () => {
 
     const routes = outputCurrency.routes ? outputCurrency.routes : new Map();
 
-    console.log('rerender');
-
     if (routes.size > 0)
         return (
             <section className="w-[500px] mx-auto animate-fade-in">

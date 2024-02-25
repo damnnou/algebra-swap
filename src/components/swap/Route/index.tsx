@@ -6,7 +6,6 @@ import SpinnerSVG from 'src/assets/spinner.svg';
 
 const Route: React.FC<RouteProps> = React.memo(
     ({ isLoading, route, best, className, price }) => {
-        console.log('rerender route');
         const defaultStyles = `relative flex items-center justify-between px-8 w-full h-[56px] border-2 bg-light rounded-2xl`;
         const bestStyles = best ? 'border-border-best' : 'border-border-light';
 

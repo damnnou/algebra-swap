@@ -29,6 +29,7 @@ const getAllRoutes = (tokenIn: string, tokenOut: string): string[][] => {
 
     const paths = routes.map((route) => route.map((token) => token));
 
+    // перемещает базовый путь в начало массива
     const index = paths.findIndex(
         (route) => JSON.stringify(route) === JSON.stringify([tokenIn, tokenOut])
     );

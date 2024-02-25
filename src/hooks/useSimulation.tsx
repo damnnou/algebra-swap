@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { simulateTransaction } from 'src/api/simulateTransaction';
 import { useAllRoutes } from './useAllRoutes';
 import { getEncodePath } from './useEncodePath';
@@ -7,13 +7,15 @@ import { useAppDispatch, useAppSelector } from 'src/store/useStore';
 
 type PathJoined = `0x${string}`;
 
-export function useSimulation(
-    tokenIn: string,
-    tokenOut: string,
-    amountIn: number
-) {
-    const { isLoading } = useAppSelector(({ swap }) => swap);
+export function useSimulation() {
+    const { isLoading, outputCurrency, inputCurrency } = useAppSelector(
+        ({ swap }) => swap
+    );
     const dispatch = useAppDispatch();
+
+    const tokenIn = inputCurrency.token.symbol;
+    const tokenOut = outputCurrency.token.symbol;
+    const amountIn = inputCurrency.value;
 
     const routes: string[][] = useAllRoutes(tokenIn, tokenOut);
 
@@ -31,7 +33,6 @@ export function useSimulation(
     const simulate = useCallback(async () => {
         try {
             if (isLoading) throw new Error('in simulating...');
-
             dispatch({ type: 'swap/setLoading' });
             console.log('calculating...');
             const routeToValue: Map<string[], bigint> = new Map();
@@ -42,9 +43,9 @@ export function useSimulation(
                 promises.push(simulateTransaction(calldata));
             }
 
-            const prices = await Promise.allSettled(promises);
+            const txsReciept = await Promise.allSettled(promises);
 
-            prices.forEach((promise, index) => {
+            txsReciept.forEach((promise, index) => {
                 if (
                     promise.value.data.transaction.transaction_info.call_trace
                         ?.decoded_output !== null &&
@@ -70,6 +71,19 @@ export function useSimulation(
             dispatch({ type: 'swap/setLoading' });
         }
     }, [amountIn]);
+
+    // useEffect(() => {
+    //     console.log('rendered');
+    // }, [
+    //     dispatch,
+    //     isLoading,
+    //     paths,
+    //     routes,
+    //     tokenIn,
+    //     tokenOut,
+    //     amountIn,
+    //     simulate,
+    // ]);
 
     return simulate;
 }

@@ -8,17 +8,15 @@ import { cn } from 'src/lib/cn';
 import TokenSelectMenu from '../TokenSelectMenu';
 import { useAppDispatch, useAppSelector } from 'src/store/useStore';
 import { useSimulation } from 'src/hooks/useSimulation';
+import { useDebounce } from 'src/hooks/useDebounce';
 
 const SwapForm = () => {
     const { isLoading, inputCurrency, outputCurrency } = useAppSelector(
         ({ swap }) => swap
     );
+    const debouncedCurrencyValue = useDebounce(inputCurrency.value, 500);
 
-    const simulate = useSimulation(
-        inputCurrency.token.symbol,
-        outputCurrency.token.symbol,
-        inputCurrency.value
-    );
+    const simulate = useSimulation();
 
     const dispatch = useAppDispatch();
 
@@ -51,8 +49,20 @@ const SwapForm = () => {
     };
 
     useEffect(() => {
-        if (inputCurrency.value > 0) simulate();
-    }, [inputCurrency.value]);
+        if (debouncedCurrencyValue && inputCurrency.value > 0) simulate();
+    }, [debouncedCurrencyValue]);
+
+    useEffect(() => {
+        if (inputCurrency.value <= 0) return;
+        const intervalId = setInterval(() => {
+            console.log('autosimulating...');
+            simulate();
+        }, 60000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    });
 
     return (
         <form
@@ -64,6 +74,7 @@ const SwapForm = () => {
             {menuState === MenuState.CLOSED && (
                 <>
                     <InputField
+                        disabled={isLoading}
                         onClick={() => handleChangeMenu(MenuState.INPUT)}
                         onChange={handleChangeInputValue}
                         selectedToken={inputCurrency.token}
