@@ -59,7 +59,7 @@ export const swapSlice = createSlice({
                 [...action.payload.entries()].sort((a, b) =>
                     a[0].length < 4 || b[0].length < 4
                         ? Number(b[1]) - Number(a[1])
-                        : 0
+                        : Number(a[1]) - Number(b[1])
                 )
             );
             const [bestRoute] = state.outputCurrency.routes.keys();
