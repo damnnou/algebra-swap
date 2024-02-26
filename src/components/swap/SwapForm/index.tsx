@@ -31,6 +31,7 @@ const SwapForm = () => {
     };
 
     const handleChangeToken = (token: string) => {
+        if (isLoading) throw new Error('wait for calculating...');
         if (menuState === MenuState.OUTPUT) {
             dispatch({
                 type: 'swap/setOutputCurrency',
@@ -45,6 +46,7 @@ const SwapForm = () => {
 
     const handleSwitchTokens = (e: React.MouseEvent) => {
         e.preventDefault();
+        if (isLoading) throw new Error('wait for calculating...');
         dispatch({ type: 'swap/switchCurrencies' });
     };
 

@@ -8,8 +8,7 @@ const SwapSection = () => {
     const simulate = useSimulation();
 
     const handleSimulate = () => {
-        if (isLoading || inputCurrency.value <= 0) return;
-        simulate();
+        if (isLoading || inputCurrency.value <= 0) simulate();
     };
 
     return (
